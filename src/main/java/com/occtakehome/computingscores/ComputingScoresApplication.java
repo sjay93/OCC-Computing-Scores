@@ -20,6 +20,7 @@ public class ComputingScoresApplication {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(ComputingScoresApplication.class, args);
         ScoreController scoreController = applicationContext.getBean(ScoreController.class);
         logger.info("Application Started");
+        System.out.println("Please enter the file name: ");
         Scanner scanner = new Scanner(System.in);
         String fileName = scanner.nextLine();
 
@@ -31,12 +32,14 @@ public class ComputingScoresApplication {
         }
 
         //since a single line of input will be given
-        String listOfNames = null;
+        StringBuilder listOfNames = new StringBuilder();
         if (fileScanner != null) {
-            listOfNames = fileScanner.nextLine();
+            while (fileScanner.hasNextLine()) {
+                listOfNames.append(fileScanner.nextLine());
+            }
         }
 
-        logger.info("The total score is " + scoreController.computeScores(listOfNames));
+        logger.info("The total score is " + scoreController.computeScores(listOfNames.toString()));
         applicationContext.close();
     }
 }
